@@ -1,0 +1,103 @@
+# == Class: clamsmtp::params
+#
+# This defines default configuration values for clamsmtp.
+# You don't want to use it directly.
+#
+# === Parameters
+#
+# === Variables
+#
+# === Examples
+#
+class clamsmtp::params {
+  $action           = 'drop'
+  $conf             = '/etc/clamsmtpd.conf'
+  $conf_template    = "${module_name}/clamsmtp.conf.erb"
+  $conf_user        = 'root'
+  $conf_group       = 'root'
+  $conf_mode        = 0644
+  $daemon_opts      = undef
+  $keepalives       = undef
+  $maxconnections   = undef
+  $timeout          = undef
+  $header           = undef
+  $bounce           = undef
+  $quarantine       = undef
+  $transparentproxy = undef
+  $user             = 'clamsmtp'
+  $virusaction      = undef
+  $xclient          = undef
+  $default_user     = 'root'
+  $default_group    = 'root'
+  $default_mode     = 0644
+
+  case $::operatingsystem {
+    /Centos|CentOS/: {
+      case $::operatingsystemmajrelease {
+        '6': {
+          $outaddress       = 10026
+          $listen           = undef
+          $clamaddress      = '/var/run/clamd.clamsmtp/clamd.sock'
+          $tempdirectory    = '/var/lib/clamd.clamsmtp'
+          $pidfile          = '/var/run/clamd.clamsmtp'
+          $default          = '/etc/sysconfig/clamsmtpd'
+          $default_template = "${module_name}/clamsmtpd.el6.erb"
+          $package_name     = 'clamsmtp'
+          $service_name     = 'clamsmtp-clamd'
+        }
+        default: {
+          fail("CentOS ${::operatingsystemmajrelease} not supported.")
+        }
+      }
+    }
+    # @FIXME: Not tested
+    /RedHat|Scientific|OracleLinux|OEL/: {
+      case $::operatingsystemmajrelease {
+        default: {
+          $outaddress       = 10026
+          $listen           = undef
+          $clamaddress      = '/var/run/clamd.clamsmtp/clamd.sock'
+          $tempdirectory    = '/var/lib/clamd.clamsmtp'
+          $pidfile          = '/var/run/clamd.clamsmtp'
+          $default          = '/etc/sysconfig/clamsmtpd'
+          $default_template = "${module_name}/clamsmtpd.el6.erb"
+          $package_name     = 'clamsmtp'
+          $service_name     = 'clamsmtp-clamd'
+        }
+      }
+    }
+    'Debian': {
+      case $::lsbdistrelease {
+        default: {
+          $outaddress       = 10025
+          $listen           = '127.0.0.1:10026'
+          $clamaddress      = '/var/run/clamav/clamd.ctl'
+          $tempdirectory    = '/var/spool/clamsmtp'
+          $pidfile          = '/var/run/clamsmtp/clamsmtpd.pid'
+          $default          = '/etc/default/clamsmtp'
+          $default_template = "${module_name}/clamsmtp.erb"
+          $package_name     = 'clamsmtp'
+          $service_name     = 'clamsmtp'
+        }
+      }
+    }
+    'Ubuntu': {
+      case $::lsbdistrelease {
+        default: {
+          $outaddress       = 10025
+          $listen           = '127.0.0.1:10026'
+          $clamaddress      = '/var/run/clamav/clamd.ctl'
+          $tempdirectory    = '/var/spool/clamsmtp'
+          $pidfile          = '/var/run/clamsmtp/clamsmtpd.pid'
+          $default          = '/etc/default/clamsmtp'
+          $default_template = "${module_name}/clamsmtp.erb"
+          $package_name     = 'clamsmtp'
+          $service_name     = 'clamsmtp'
+        }
+      }
+    }
+    default: {
+      fail("${module_name} is not supported on ${::operatingsystem}.")
+    }
+  }
+}

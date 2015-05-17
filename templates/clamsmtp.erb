@@ -1,0 +1,13 @@
+#
+# /etc/default/clamsmtp -- Shell overrides for /etc/init.d/clamsmtp
+#
+# This script is Public Domain.
+#
+###########################################################################
+
+# Add your custom commandline options here
+<% if @daemon_opts %>
+DAEMON_OPTS=<%= @daemon_opts %>
+<% else %>
+#DAEMON_OPTS=
+<% end %>
