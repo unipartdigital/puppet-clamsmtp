@@ -1,4 +1,4 @@
-# ------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
 #                        SAMPLE CLAMSMTPD CONFIG FILE
 # ------------------------------------------------------------------------------
 # 
@@ -51,20 +51,17 @@ TempDirectory: <%= @tempdirectory %>
 PidFile: <%= @pidfile %>
 <% end %>
 
-# Whether or not to bounce email (default is to silently drop)
-#Bounce: off
-<% if @bounce %>
-Bounce: <%= @bounce %>
+# What to do when we see a virus (use 'bounce' or 'pass' or 'drop'
+<% if @action %>
+Action: <%= @action %>
 <% end %>
 
 # Whether or not to keep virus files 
-#Quarantine: off
 <% if @quarantine %>
 Quarantine: <%= @quarantine %>
 <% end %>
 
 # Enable transparent proxy support 
-#TransparentProxy: off
 <% if @transparentproxy %>
 TransparentProxy: <%= @transparentproxy %>
 <% end %>

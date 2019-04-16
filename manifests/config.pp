@@ -6,7 +6,11 @@
 #
 # === Variables
 #
-class clamsmtp::config {
+# Added 'inherits ::clamsmtp' as the vars weren't being collected from the params file. M.Perlov
+#
+class clamsmtp::config ()
+  inherits ::clamsmtp
+  {
 
   file { $clamsmtp::conf:
     ensure  => file,

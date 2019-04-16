@@ -15,7 +15,7 @@ class clamsmtp::params {
   $conf_template    = "${module_name}/clamsmtp.conf.erb"
   $conf_user        = 'root'
   $conf_group       = 'root'
-  $conf_mode        = 0644
+  $conf_mode        = '0644'
   $daemon_opts      = undef
   $keepalives       = undef
   $maxconnections   = undef
@@ -29,24 +29,36 @@ class clamsmtp::params {
   $xclient          = undef
   $default_user     = 'root'
   $default_group    = 'root'
-  $default_mode     = 0644
+  $default_mode     = '0644'
 
+# Centos config without the OS selection:
+
+#  $outaddress       = '10026'
+#  $listen           = "${::ipaddress}:10025"
+#  $clamaddress      = '/var/run/clamd.clamsmtp/socket'
+#  $tempdirectory    = '/var/lib/clamd.clamsmtp'
+#  $pidfile          = '/run/clamsmtpd/clamsmtpd.pid'
+#  $default          = '/etc/sysconfig/clamsmtpd'
+#  $default_template = "${module_name}/clamsmtpd.el6.erb"
+#  $package_name     = 'clamsmtp'
+#  $service_name     = 'clamsmtp-clamd'
+
+
+
+# Changed 6 to 7 below to make this work and deleted default to drop 7
   case $::operatingsystem {
     /Centos|CentOS/: {
       case $::operatingsystemmajrelease {
-        '6': {
-          $outaddress       = 10026
-          $listen           = undef
-          $clamaddress      = '/var/run/clamd.clamsmtp/clamd.sock'
+        '7': {
+          $outaddress       = '10026'
+          $listen           = "${::ipaddress}:10025"
+          $clamaddress      = '/var/run/clamd.clamsmtp/socket'
           $tempdirectory    = '/var/lib/clamd.clamsmtp'
-          $pidfile          = '/var/run/clamd.clamsmtp'
+          $pidfile          = '/run/clamsmtpd/clamsmtpd.pid'
           $default          = '/etc/sysconfig/clamsmtpd'
           $default_template = "${module_name}/clamsmtpd.el6.erb"
           $package_name     = 'clamsmtp'
           $service_name     = 'clamsmtp-clamd'
-        }
-        default: {
-          fail("CentOS ${::operatingsystemmajrelease} not supported.")
         }
       }
     }
