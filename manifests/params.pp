@@ -51,7 +51,7 @@ class clamsmtp::params {
       case $::operatingsystemmajrelease {
         '7': {
           $outaddress       = '10026'
-          $listen           = "${::ipaddress}:10025"
+          $listen           = undef
           $clamaddress      = '/var/run/clamd.clamsmtp/socket'
           $tempdirectory    = '/var/lib/clamd.clamsmtp'
           $pidfile          = '/run/clamsmtpd/clamsmtpd.pid'
